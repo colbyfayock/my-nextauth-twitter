@@ -24,6 +24,22 @@ export default function Home({ session }) {
     setStatuses(results.data);
   }
 
+  async function handleOnTweetSubmit(e) {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const status = formData.get('status');
+
+    const results = await fetch('/api/twitter/tweet', {
+      method: 'POST',
+      body: JSON.stringify({
+        status
+      })
+    }).then(res => res.json());
+
+    alert('Success!')
+  }
+
   return (
     <div>
       <Head>
@@ -49,6 +65,12 @@ export default function Home({ session }) {
         </p>
 
         <div>
+          <form onSubmit={handleOnTweetSubmit}>
+            <h2>Tweet</h2>
+            <textarea name="status" />
+            <button>Tweet</button>
+          </form>
+
           <form onSubmit={handleOnSearchSubmit}>
             <h2>Search</h2>
             <input type="search" name="query" />
